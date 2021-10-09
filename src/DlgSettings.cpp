@@ -49,10 +49,6 @@ INT_PTR DlgSettings::OnInit( HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
     // Fill injection types
     _injectionType.Add( L"Native inject", Normal );
     _injectionType.Add( L"Manual map", Manual );
-
-    _injectionType.Add( L"Kernel (CreateThread)", Kernel_Thread );
-    _injectionType.Add( L"Kernel (APC)", Kernel_APC );
-    _injectionType.Add( L"Kernel (Manual map)", Kernel_MMap );
     //_injectionType.Add( L"Kernel driver manual map", Kernel_DriverMap );
 
     // Disable some driver-dependent stuff
@@ -282,49 +278,6 @@ void DlgSettings::UpdateInterface()
             _hijack.disable();
             _unlink.disable();
             _erasePE.disable();
-            break;
-
-        case Kernel_Thread:
-        case Kernel_APC:
-        case Kernel_MMap:
-        case Kernel_DriverMap:        
-            _hijack.disable();
-            _krnHandle.disable();
-
-            _mmapOptions.addLdrRef.disable();
-
-            if (cfg.injectMode == Kernel_MMap)
-            {
-                _mmapOptions.addLdrRef.checked( false );
-                _mmapOptions.manualInmport.enable();
-                _mmapOptions.wipeHeader.enable();
-                _mmapOptions.noTls.enable();
-                _mmapOptions.noExceptions.enable();
-                _mmapOptions.hideVad.enable();
-
-                _unlink.disable();
-                _erasePE.disable();
-            }
-            else
-            {
-                _mmapOptions.manualInmport.disable();
-                _mmapOptions.wipeHeader.disable();
-                _mmapOptions.noTls.disable();
-                _mmapOptions.noExceptions.disable();
-                _mmapOptions.hideVad.disable();
-            }
-
-            if (cfg.injectMode == Kernel_DriverMap)
-            {
-                _unlink.disable();
-                _erasePE.disable();
-                _initFuncList.selectedText( L"" );
-                _initFuncList.disable();
-                _initArg.reset();
-                _initArg.disable();
-                _procCmdLine.disable();
-            }
-
             break;
 
         default:

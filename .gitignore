@@ -78,3 +78,8 @@ GeneratedFiles*/
 *.ggpk
 *.idb
 *.db
+.vs/Xenos/v16/Solution.VC.db-wal
+.vs/Xenos/v16/Solution.VC.db-shm
+.vs/Xenos/v16/Browse.VC.opendb
+.vs/Xenos/v16/Browse.VC.db-wal
+.vs/Xenos/v16/Browse.VC.db-shm

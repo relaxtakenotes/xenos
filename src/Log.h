@@ -88,75 +88,33 @@ private:
 
 inline bool Fatal( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::fatal, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 inline bool Error( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::error, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 inline bool Critical( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::critical, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 
 inline bool Warning( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::warning, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 inline bool Normal( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::normal, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 inline bool Verbose( const char* fmt, ... )
 {
-    va_list alist;
-    bool result = false;
-
-    va_start( alist, fmt );
-    result = Logger::Instance().DoLogV( LogLevel::verbose, fmt, alist );
-    va_end( alist );
-
-    return result;
+    return false;
 }
 
 }

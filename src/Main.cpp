@@ -54,24 +54,6 @@ void AssociateExtension()
 /// </summary>
 void LogOSInfo()
 {
-    SYSTEM_INFO info = { 0 };
-    char* osArch = "x64";
-
-    auto pPeb = (blackbone::PEB_T*)NtCurrentTeb()->ProcessEnvironmentBlock;
-    GetNativeSystemInfo( &info );
-
-    if (info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_INTEL)
-        osArch = "x86";
-
-    xlog::Normal(
-        "Started on Windows %d.%d.%d.%d %s. Driver status: 0x%X",
-        pPeb->OSMajorVersion,
-        pPeb->OSMinorVersion,
-        (pPeb->OSCSDVersion >> 8) & 0xFF,
-        pPeb->OSBuildNumber,
-        osArch,
-        blackbone::Driver().status()
-        );
 }
 
 /// <summary>
@@ -111,7 +93,6 @@ int APIENTRY wWinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPW
     std::wstring param;
     auto action = ParseCmdLine( param );
     MainDlg mainDlg( action, param );
-    LogOSInfo();
 
     if (action != MainDlg::RunProfile)
         return (int)mainDlg.RunModeless( NULL, IDR_ACCELERATOR1 );
