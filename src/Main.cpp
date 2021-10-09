@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MainDlg.h"
-#include "DumpHandler.h"
 #include "DriverExtract.h"
 
 #include <shellapi.h>
@@ -87,7 +86,6 @@ MainDlg::StartAction ParseCmdLine( std::wstring& param )
 int APIENTRY wWinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPWSTR /*lpCmdLine*/, int /*nCmdShow*/ )
 {
     // Setup dump generation
-    dump::DumpHandler::Instance().CreateWatchdog( blackbone::Utils::GetExeDirectory(), dump::CreateFullDump, &DumpNotifier );
     AssociateExtension();
 
     std::wstring param;

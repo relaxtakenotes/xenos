@@ -17,9 +17,6 @@
     <ClCompile Include="DlgWait.cpp">
       <Filter>Interface\ProcessWait</Filter>
     </ClCompile>
-    <ClCompile Include="DumpHandler.cpp">
-      <Filter>Dump</Filter>
-    </ClCompile>
     <ClCompile Include="DlgSettings.cpp">
       <Filter>Interface\Settings</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
     <ClInclude Include="Window.hpp">
       <Filter>Interface\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="DumpHandler.h">
-      <Filter>Dump</Filter>
-    </ClInclude>
     <ClInclude Include="DlgSettings.h">
       <Filter>Interface\Settings</Filter>
     </ClInclude>
@@ -105,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="StatusBar.hpp">
       <Filter>Interface\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Log</Filter>
     </ClInclude>
     <ClInclude Include="DriverExtract.h">
       <Filter>Common</Filter>
@@ -144,33 +135,13 @@
     <Filter Include="Interface\ProcessWait">
       <UniqueIdentifier>{2e8d1037-50b9-402e-8e77-93f6ed5d2e91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dump">
-      <UniqueIdentifier>{045106fa-fca8-4b9d-a670-5e01f6707aa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interface\Settings">
       <UniqueIdentifier>{0db25773-59d9-487d-9d9f-3f3df6d3a096}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Log">
-      <UniqueIdentifier>{01cf98c8-a029-49f3-8002-2a821fdb7e0d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="overwatchres.res">
       <Filter>Resources</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win7Release\BlackBoneDrv7.sys">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win8Release\BlackBoneDrv8.sys">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win10Release\BlackBoneDrv10.sys">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win8.1Release\BlackBoneDrv81.sys">
-      <Filter>Resources</Filter>
-    </None>
   </ItemGroup>
 </Project>

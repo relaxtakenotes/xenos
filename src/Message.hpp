@@ -43,23 +43,6 @@ private:
         )
     {
         UINT uType = MB_ICONERROR;
-        xlog::LogLevel::e logLevel = xlog::LogLevel::error;
-
-        if (type == Warning)
-        {
-            uType = MB_ICONWARNING;
-            logLevel = xlog::LogLevel::warning;
-        }
-        else if (type == Info)
-        {
-            uType = MB_ICONINFORMATION;
-            logLevel = xlog::LogLevel::normal;
-        }
-        else if (type == Question)
-        {
-            uType = MB_YESNO | MB_ICONQUESTION;
-            logLevel = xlog::LogLevel::verbose;
-        }
 
         return MessageBoxW( parent, msg.c_str(), title.c_str(), uType );
     }

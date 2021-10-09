@@ -42,7 +42,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
     // Await new process
     if (context.cfg.processMode == ManualLaunch)
     {
-        xlog::Normal( "Waiting on process %ls", context.procPath.c_str() );
 
         auto procName = blackbone::Utils::StripPath( context.procPath );
         if (procName.empty())
@@ -63,7 +62,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
             // Canceled by user
             if (!context.waitActive)
             {
-                xlog::Warning( "Process wait canceled by user" );
                 return STATUS_REQUEST_ABORTED;
             }
 
@@ -83,7 +81,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
                 context.pid = context.procDiff.front().pid;
                 context.procDiff.erase( context.procDiff.begin() );
 
-                xlog::Verbose( "Got process %d", context.pid );
                 break;
             }
             else
@@ -104,8 +101,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
         STARTUPINFOW si = { 0 };
         si.cb = sizeof( si );
 
-        xlog::Normal( "Creating new process '%ls' with arguments '%ls'", context.procPath.c_str(), context.cfg.procCmdLine.c_str() );
-
         if (!CreateProcessW( context.procPath.c_str(), (LPWSTR)context.cfg.procCmdLine.c_str(),
             NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, blackbone::Utils::GetParent( context.procPath ).c_str(), &si, &pi ))
         {
@@ -116,7 +111,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
         // Escalate handle access rights through driver
         if (context.cfg.krnHandle)
         {
-            xlog::Normal( "Escalating process handle access" );
 
             status = _process.Attach( pi.dwProcessId, PROCESS_QUERY_LIMITED_INFORMATION );
             if (NT_SUCCESS( status ))
@@ -140,7 +134,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
 
         if (!NT_SUCCESS( status ))
         {
-            xlog::Error( "Failed to attach to process, status 0x%X", status );
             return status;
         }
 
@@ -167,7 +160,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
         // Escalate handle access rights through driver
         if (context.cfg.krnHandle)
         {
-            xlog::Normal( "Escalating process handle access" );
 
             status = _process.Attach( context.pid, PROCESS_QUERY_LIMITED_INFORMATION );
             if (NT_SUCCESS( status ))
@@ -178,9 +170,6 @@ NTSTATUS InjectionCore::GetTargetProcess( InjectContext& context, PROCESS_INFORM
                     DEFAULT_ACCESS_P | PROCESS_QUERY_LIMITED_INFORMATION
                     );
             }
-
-            if (!NT_SUCCESS( status ))
-                xlog::Error( "Failed to escalate process handle access, status 0x%X", status );
         }
         else
             status = _process.Attach( context.pid );
@@ -429,19 +418,6 @@ NTSTATUS InjectionCore::InjectMultiple( InjectContext* pContext )
         pContext->pid = pContext->cfg.pid;
 
     // Log some info
-    xlog::Critical(
-        "Injection initiated. Mode: %d, process type: %d, pid: %d, mmap flags: 0x%X, "
-        "erasePE: %d, unlink: %d, thread hijack: %d, init routine: '%s', init arg: '%ls'",
-        pContext->cfg.injectMode,
-        pContext->cfg.processMode,
-        pContext->pid,
-        pContext->cfg.mmapFlags,
-        pContext->cfg.erasePE,
-        pContext->cfg.unlink,
-        pContext->cfg.hijack,
-        pContext->cfg.initRoutine.c_str(),
-        pContext->cfg.initArgs.c_str()
-        );
 
     // Get process for injection
     status = GetTargetProcess( *pContext, pi );
@@ -505,13 +481,10 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
     blackbone::ModuleDataPtr mod;
     uint32_t exportRVA = 0;
 
-    xlog::Critical( "Injecting image '%ls'", img.path().c_str() );
-
     // Check export
     status = ValidateInit( blackbone::Utils::WstringToUTF8( context.cfg.initRoutine ), exportRVA, img );
     if (!NT_SUCCESS( status ))
     {
-        xlog::Error( "Image init routine check failed, status: 0x%X", status );
         return status;
     }
 
@@ -520,7 +493,6 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
     {
         if (!NT_SUCCESS( status = ValidateContext( context, img ) ))
         {
-            xlog::Error( "Context validation failed, status: 0x%X", status );
             return status;
         }
     }
@@ -528,7 +500,6 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
     // Get context thread
     if (context.cfg.hijack && context.cfg.injectMode < Kernel_Thread)
     {
-        xlog::Normal( "Searching for thread to hijack" );
         pThread = _process.threads().getMostExecuted();
         if (!pThread)
         {
@@ -573,7 +544,6 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
                     if (!injectedMod)
                     {
                         status = injectedMod.status;
-                        xlog::Error( "Failed to inject image using manual map, status: 0x%X", injectedMod.status );
                     }
                     else
                         mod = injectedMod.result();
@@ -584,7 +554,6 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
             case Kernel_APC:
             case Kernel_MMap:
                 if (!NT_SUCCESS( status = InjectKernel( context, img, exportRVA ) ))
-                    xlog::Error( "Failed to inject image using kernel injection, status: 0x%X", status );
                 break;                
 
             case Kernel_DriverMap:
@@ -599,7 +568,6 @@ NTSTATUS InjectionCore::InjectSingle( InjectContext& context, blackbone::pe::PEI
     // Fix error code
     if (!img.pureIL() && mod == nullptr && context.cfg.injectMode < Kernel_Thread && NT_SUCCESS( status ))
     {
-        xlog::Error( "Invalid failure status: 0x%X", status );
         status = STATUS_DLL_NOT_FOUND;
     }
 
@@ -661,7 +629,6 @@ blackbone::call_result_t<blackbone::ModuleDataPtr> InjectionCore::InjectDefault(
     {
         DWORD code = 0;
 
-        xlog::Normal( "Image '%ls' is pure IL", img.path().c_str() );
 
         if (!_process.modules().InjectPureIL(
             ImageNET::GetImageRuntimeVer( img.path().c_str() ),
@@ -670,7 +637,6 @@ blackbone::call_result_t<blackbone::ModuleDataPtr> InjectionCore::InjectDefault(
             context.cfg.initArgs,
             code ))
         {
-            xlog::Error( "Failed to inject pure IL image, status: %d", code );
             if (NT_SUCCESS( code ))
                 code = STATUS_DLL_NOT_FOUND;
 
@@ -684,7 +650,6 @@ blackbone::call_result_t<blackbone::ModuleDataPtr> InjectionCore::InjectDefault(
     {
         auto injectedMod = _process.modules().Inject( img.path(), pThread );
         if (!injectedMod)
-            xlog::Error( "Failed to inject image using default injection, status: 0x%X", injectedMod.status );
 
         return injectedMod;
     }
@@ -756,7 +721,6 @@ NTSTATUS InjectionCore::CallInitRoutine(
     {
         auto fnPtr = mod->baseAddress + exportRVA;
 
-        xlog::Normal( "Calling initialization routine for image '%ls'", img.path().c_str() );
 
         // Create new thread
         if (pThread == nullptr)
@@ -768,15 +732,12 @@ NTSTATUS InjectionCore::CallInitRoutine(
             argMem->Write( 0, context.cfg.initArgs.length() * sizeof( wchar_t ) + 2, context.cfg.initArgs.c_str() );
             auto status = _process.remote().ExecDirect( fnPtr, argMem->ptr() );
 
-            xlog::Normal( "Initialization routine returned 0x%X", status );
         }
         // Execute in existing thread
         else
         {
             blackbone::RemoteFunction<fnInitRoutine> pfn( _process, fnPtr );
             auto status = pfn.Call( context.cfg.initArgs.c_str(), pThread );
-
-            xlog::Normal( "Initialization routine returned 0x%X", status );
         }
     }
 

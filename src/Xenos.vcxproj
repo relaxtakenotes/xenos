@@ -173,14 +173,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <Optimization>Full</Optimization>
+      <Optimization>MinSpace</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;BLACKBONE_STATIC;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
@@ -188,6 +188,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -210,7 +211,6 @@
     <ClCompile Include="ProfileMgr.cpp" />
     <ClCompile Include="DlgSettings.cpp" />
     <ClCompile Include="DlgWait.cpp" />
-    <ClCompile Include="DumpHandler.cpp" />
     <ClCompile Include="FileUtil.cpp" />
     <ClCompile Include="InjectionCore.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -222,14 +222,12 @@
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="ComboBox.hpp" />
     <ClInclude Include="DriverExtract.h" />
-    <ClInclude Include="Log.h" />
     <ClInclude Include="ProfileMgr.h" />
     <ClInclude Include="Control.hpp" />
     <ClInclude Include="Dialog.hpp" />
     <ClInclude Include="DlgModules.h" />
     <ClInclude Include="DlgSettings.h" />
     <ClInclude Include="DlgWait.h" />
-    <ClInclude Include="DumpHandler.h" />
     <ClInclude Include="EditBox.hpp" />
     <ClInclude Include="FileUtil.h" />
     <ClInclude Include="InjectionCore.h" />
@@ -249,12 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="overwatchres.res" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win10Release\BlackBoneDrv10.sys" />
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win7Release\BlackBoneDrv7.sys" />
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win8.1Release\BlackBoneDrv81.sys" />
-    <None Include="..\ext\blackbone\src\BlackBoneDrv\bin\x64\Win8Release\BlackBoneDrv8.sys" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ext\BlackBone\src\BlackBone\BlackBone.vcxproj">
