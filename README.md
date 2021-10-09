@@ -33,6 +33,9 @@ Manual map features:
 - Fixed source code (It wouldn't compile without additional fixes, at least with the newer blackbone library)
 - Hopefully no references to xenos or a fact that it is an injector in the code, metadata, configs, which reduces the amount of possible anti-cheat detection spots.
 
+## Notes for compiling in Visual Studio 2019 ##
+- You must install all .NET SDK's in the visual studio installer.
+
 Supported OS: Win7 - Win10 x64
 
 ## License ##
