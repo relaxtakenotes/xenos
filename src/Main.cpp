@@ -12,11 +12,6 @@
 /// <param name="expt">Exception info</param>
 /// <param name="success">if false - crash dump file was not saved</param>
 /// <returns>status</returns>
-int DumpNotifier( const wchar_t* path, void* context, EXCEPTION_POINTERS* expt, bool success )
-{
-    Message::ShowError( NULL, L"Program has crashed. Dump file saved at '" + std::wstring( path ) + L"'" );
-    return 0;
-}
 
 /// <summary>
 /// Associate profile file extension
@@ -85,7 +80,6 @@ MainDlg::StartAction ParseCmdLine( std::wstring& param )
 
 int APIENTRY wWinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPWSTR /*lpCmdLine*/, int /*nCmdShow*/ )
 {
-    // Setup dump generation
     AssociateExtension();
 
     std::wstring param;
