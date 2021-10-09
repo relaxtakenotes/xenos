@@ -28,9 +28,12 @@ Manual map features:
 - Support for exceptions in private memory under DEP
 - C++/CLI images are supported (use 'Add loader reference' in this case)
 
+## Changes from the original repository ##
+- Up-to-date blackbone library
+- Fixed source code (It wouldn't compile without additional fixes, at least with the newer blackbone library)
+- Hopefully no references to xenos or a fact that it is an injector in the code, metadata, configs, which reduces the amount of possible anti-cheat detection spots.
+
 Supported OS: Win7 - Win10 x64
 
 ## License ##
 Xenos is licensed under the MIT License. Dependencies are under their respective licenses.
-
-[![Build status](https://ci.appveyor.com/api/projects/status/eu6lpbla89gjgy5m?svg=true)](https://ci.appveyor.com/project/DarthTon/xenos)
