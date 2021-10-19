@@ -12,5 +12,8 @@ Windows dll injector. Based on Blackbone library - https://github.com/DarthTon/B
 - You must install all .NET SDK's in the visual studio installer.
 - You must compile in x64.
 
+## Recommended ##
+- Use a vac bypass loader paired with this injector.
+
 ## License ##
 Xenos is licensed under the MIT License. Dependencies are under their respective licenses.
